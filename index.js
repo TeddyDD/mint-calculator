@@ -1980,13 +1980,11 @@ const $Calculator_Store = new (class extends Store {
   }
 
   setNumber(btn) {
-    let currentString = $Number.toString(this.data.current)
-
-    let resultString = $String.concat([currentString, btn])
+    let result = this.data.current * 10 + $Maybe.withDefault(0, $Number.fromString(btn))
 
     return new Promise((_resolve) => {
       this.setState(_update(this.state, new Record({
-    data: _update(this.data, { current: $Maybe.withDefault(0, $Number.fromString(resultString)) })
+    data: _update(this.data, { current: result })
     })), _resolve)
     })
   }
