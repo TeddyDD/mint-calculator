@@ -15,7 +15,7 @@ component Calculator {
   style display {
     grid-column: 1 / 5;
     background-color: #333;
-    color: white;
+    color: #eee;
   }
 
   style button {
