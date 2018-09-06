@@ -1,9 +1,5 @@
-# do not format ./source/Calculator.mint since it will mess with button array
-# Keep this file formatted manually for now
-files = "source/CalculatorStore.mint source/DownloadButton.mint source/Main.mint"
-
 format:
-	mint format {{files}}
+	mint format source/*.mint
 
 deploy:
     mint build

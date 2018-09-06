@@ -18,31 +18,6 @@ component Calculator {
     color: #eee;
   }
 
-  style button {
-    background-color: {buttonBgColor};
-    border: {buttonBorder};
-  }
-
-  style operator {
-    background-color: #73c44e;
-    border: 2px solid #666;
-    color: white;
-  }
-
-  style zero {
-    grid-column: 1/3;
-    background-color: {buttonBgColor};
-    border: {buttonBorder};
-  }
-
-  get buttonBgColor : String {
-    "#eee"
-  }
-
-  get buttonBorder : String {
-    "2px solid #ccc"
-  }
-
   /* Display acc and current operator */
   property debug : Bool = false
 
@@ -62,32 +37,53 @@ component Calculator {
     buttons
     |> Array.mapWithIndex(
       (elem : String, idx : Number) : Html => {
-        if (modulo(idx + 1, 4) == 0 || elem == "=") {
-          <div::operator onClick={getClickCallback(elem)}>
-            <{ elem }>
-          </div>
-        } else {
-          case (elem) {
-            "0" =>
-              <div::zero onClick={getClickCallback(elem)}>
-                <{ elem }>
-              </div>
+        try {
+          operator =
+            if (modulo(idx + 1, 4) == 0 || elem == "=") {
+              true
+            } else {
+              false
+            }
 
-            =>
-              <div::button onClick={getClickCallback(elem)}>
-                <{ elem }>
-              </div>
-          }
+          wide =
+            if (elem == "0") {
+              true
+            } else {
+              false
+            }
+
+          <CalculatorButton
+            onClick={getClickCallback(elem)}
+            operator={operator}
+            wide={wide}>
+
+            <{ elem }>
+
+          </CalculatorButton>
         }
       })
   } where {
     buttons =
       [
-        "C", "+/-", "%", "÷",
-        "7", "8", "9", "×",
-        "4", "5", "6", "-",
-        "1", "2", "3", "+",
-        "0", ".", "="
+        "C",
+        "+/-",
+        "%",
+        "÷",
+        "7",
+        "8",
+        "9",
+        "×",
+        "4",
+        "5",
+        "6",
+        "-",
+        "1",
+        "2",
+        "3",
+        "+",
+        "0",
+        ".",
+        "="
       ]
   }
 
