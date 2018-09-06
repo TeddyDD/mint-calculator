@@ -2072,6 +2072,73 @@ const $Calculator_Store = new (class extends Store {
 })
 $Calculator_Store.__displayName = `Calculator.Store`
 
+class $CalculatorButton extends Component {
+  get backgroundColor() {
+    return (this.operator ? `#73c44e` : `#eee`)
+  }
+
+  get color() {
+    return (this.operator ? `#eee` : `#111`)
+  }
+
+  get borderStyle() {
+    return (this.operator ? `2px solid #666` : `2px solid #ccc`)
+  }
+
+  get grid() {
+    return (this.wide ? `1/3` : `auto`)
+  }
+
+  get operator () {
+    if (this.props.operator != undefined) {
+      return this.props.operator
+    } else {
+      return false
+    }
+  }
+
+  get wide () {
+    if (this.props.wide != undefined) {
+      return this.props.wide
+    } else {
+      return false
+    }
+  }
+
+  get children () {
+    if (this.props.children != undefined) {
+      return this.props.children
+    } else {
+      return []
+    }
+  }
+
+  get onClick () {
+    if (this.props.onClick != undefined) {
+      return this.props.onClick
+    } else {
+      return ((event) => {
+    return null
+    })
+    }
+  }
+
+  render() {
+    return _createElement("div", {
+      "onClick": (event => (this.onClick)(_normalizeEvent(event))),
+      className: `calculator-button-button`,
+      style: {
+        [`--calculator-button-button-background-color`]: this.backgroundColor,
+        [`--calculator-button-button-border`]: this.borderStyle,
+        [`--calculator-button-button-grid-column`]: this.grid,
+        [`--calculator-button-button-color`]: this.color
+      }
+    }, [this.children])
+  }
+}
+
+$CalculatorButton.displayName = "CalculatorButton"
+
 class $Main extends Component {
   render() {
     return _createElement("div", {
@@ -2111,14 +2178,6 @@ class $DownloadButton extends Component {
 $DownloadButton.displayName = "DownloadButton"
 
 class $Calculator extends Component {
-  get buttonBgColor() {
-    return `#eee`
-  }
-
-  get buttonBorder() {
-    return `2px solid #ccc`
-  }
-
   get debugString() {
     return (this.debug ? ` ACC: ` + $Number.toString(this.data.acc) + ` OP: ` + this.data.operator : ``)
   }
@@ -2127,32 +2186,11 @@ class $Calculator extends Component {
     let buttons = [`C`, `+/-`, `%`, `÷`, `7`, `8`, `9`, `×`, `4`, `5`, `6`, `-`, `1`, `2`, `3`, `+`, `0`, `.`, `=`]
 
     return $Array.mapWithIndex(((elem, idx) => {
-    return (_compare(this.modulo.bind(this)(idx + 1, 4), 0) || _compare(elem, `=`) ? _createElement("div", {
-      "onClick": (event => (this.getClickCallback.bind(this)(elem))(_normalizeEvent(event))),
-      className: `calculator-operator`
-    }, [elem]) : (() => {
-      let __condition = elem
+    return (() => { let operator = (_compare(this.modulo.bind(this)(idx + 1, 4), 0) || _compare(elem, `=`) ? true : false)
 
-       if (_compare(__condition, `0`)) {
-        return _createElement("div", {
-        "onClick": (event => (this.getClickCallback.bind(this)(elem))(_normalizeEvent(event))),
-        className: `calculator-zero`,
-        style: {
-          [`--calculator-zero-background-color`]: this.buttonBgColor,
-          [`--calculator-zero-border`]: this.buttonBorder
-        }
-      }, [elem])
-      } else {
-        return _createElement("div", {
-        "onClick": (event => (this.getClickCallback.bind(this)(elem))(_normalizeEvent(event))),
-        className: `calculator-button`,
-        style: {
-          [`--calculator-button-background-color`]: this.buttonBgColor,
-          [`--calculator-button-border`]: this.buttonBorder
-        }
-      }, [elem])
-      }
-    })())
+    let wide = (_compare(elem, `0`) ? true : false)
+
+    return _createElement($CalculatorButton, { "onClick": this.getClickCallback.bind(this)(elem), "operator": operator, "wide": wide }, _array(elem)) })()
     }), buttons)
   }
 
@@ -2272,6 +2310,13 @@ class $Unless extends Component {
 $Unless.displayName = "Unless"
 
 _insertStyles(`
+  .calculator-button-button {
+    background-color: var(--calculator-button-button-background-color);
+    border: var(--calculator-button-button-border);
+    grid-column: var(--calculator-button-button-grid-column);
+    color: var(--calculator-button-button-color);
+  }
+
   .main-base {
     font-family: sans;
     justify-content: center;
@@ -2332,23 +2377,6 @@ _insertStyles(`
     grid-column: 1 / 5;
     background-color: #333;
     color: #eee;
-  }
-
-  .calculator-button {
-    background-color: var(--calculator-button-background-color);
-    border: var(--calculator-button-border);
-  }
-
-  .calculator-operator {
-    background-color: #73c44e;
-    border: 2px solid #666;
-    color: white;
-  }
-
-  .calculator-zero {
-    grid-column: 1/3;
-    background-color: var(--calculator-zero-background-color);
-    border: var(--calculator-zero-border);
   }
 `)
 _program.render($Main)
