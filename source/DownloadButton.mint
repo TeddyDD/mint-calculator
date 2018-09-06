@@ -48,7 +48,7 @@ style base {
 	property children : Array(Html) = []
 
 	fun render() : Html {
-		<a::base href={href}><{children}></a>
+		<a::base href={href} target="_blank"><{children}></a>
     }
 
 }

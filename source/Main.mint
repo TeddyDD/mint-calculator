@@ -14,7 +14,7 @@ component Main {
 	<div::base>
 		<h1><{"Mint Calculator"}></h1>
     	<Calculator></Calculator>
-		<DownloadButton href="github"><{"Get source code"}></DownloadButton>
+		<DownloadButton href="https://github.com/TeddyDD/mint-calculator"><{"Get source code"}></DownloadButton>
 	</div>
   }
 }
