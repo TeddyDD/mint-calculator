@@ -33,16 +33,9 @@ store Calculator.Store {
 
   /* Called when any numeric button is pressed */
   fun setNumber (btn : String) : Void {
-    next { data = { data | current = Maybe.withDefault(0, Number.fromString(resultString)) } }
+    next { data = { data | current = result }
   } where {
-    currentString =
-      Number.toString(data.current)
-
-    resultString =
-      String.concat([
-        currentString,
-        btn
-      ])
+    result = data.current * 10 + Maybe.withDefault(0, Number.fromString(btn))
   }
 
   /* Called when operator button is pressed */
