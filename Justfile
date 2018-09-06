@@ -1,6 +1,10 @@
 deploy:
-	git diff-index --quiet HEAD --
-	mint build
-	git checkout deploy
-	git add -f dist/*
-	git commit -m "Deploy $(date)"
+    mint build
+    git checkout deploy
+    git reset --hard
+    cp -rlf dist/* ./
+    rm -rf dist
+    git add .
+    git rm -rf --cached .mint/
+    git commit -m "Deploy `date "+%Y-%m-%d %H:%M:%S"`"
+    git checkout master
