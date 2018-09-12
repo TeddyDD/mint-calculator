@@ -13,7 +13,7 @@ store Calculator.Store {
     equals = false
   }
 
-  fun clear : Void {
+  fun clear : Promise(Never,Void) {
     next
       {
         data =
@@ -27,19 +27,19 @@ store Calculator.Store {
   }
 
   /* Negation operator +/- */
-  fun negate : Void {
+  fun negate : Promise(Never,Void) {
     next { data = { data | current = Math.negate(data.current) } }
   }
 
   /* Called when any numeric button is pressed */
-  fun setNumber (btn : String) : Void {
+  fun setNumber (btn : String) : Promise(Never,Void) {
     next { data = { data | current = result }}
   } where {
     result = data.current * 10 + Maybe.withDefault(0, Number.fromString(btn))
   }
 
   /* Called when operator button is pressed */
-  fun setOperator (op : String) : Void {
+  fun setOperator (op : String) : Promise(Never,Void) {
     next
       {
         data =
@@ -59,10 +59,11 @@ store Calculator.Store {
       "-" => acc - current
       "*" => acc * current
       "/" => acc / current
+      => acc
     }
   }
 
-  fun percent : Void {
+  fun percent : Promise(Never,Void) {
     next
       {
         data =
@@ -77,7 +78,7 @@ store Calculator.Store {
   }
 
   /* Called when = button is pressed */
-  fun equals : Void {
+  fun equals : Promise(Never,Void) {
     if (data.equals == true) {
       next
         {
@@ -103,7 +104,7 @@ store Calculator.Store {
       data.current
   }
 
-  fun mapButtonToOp (btn : String) : Void {
+  fun mapButtonToOp (btn : String) : Promise(Never,Void) {
     case (btn) {
       "C" => clear()
       "+/-" => negate()

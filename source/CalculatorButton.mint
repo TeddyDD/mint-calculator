@@ -2,7 +2,7 @@ component CalculatorButton {
   property operator : Bool = false
   property wide : Bool = false
   property children : Array(Html) = []
-  property onClick : Function(Html.Event, Void) = (event : Html.Event) : Void => { void }
+  property onClick : Function(Html.Event, Promise(Never,Void)) = (event : Html.Event) : Promise(Never,Void) => { Promise.never() }
 
   get backgroundColor : String {
     if (operator) {
