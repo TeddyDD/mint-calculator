@@ -88,8 +88,8 @@ component Calculator {
   }
 
   /* Create Html.event callback from button text */
-  fun getClickCallback (btn : String) : Function(Html.Event, Promise(Never,Void)) {
-    (event : Html.Event) : Promise(Never,Void) => { mapButtonToOp(btn) }
+  fun getClickCallback (btn : String) : Function(Html.Event, Promise(Never, Void)) {
+    (event : Html.Event) : Promise(Never, Void) => { mapButtonToOp(btn) }
   }
 
   fun modulo (a : Number, b : Number) : Number {
